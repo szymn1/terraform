@@ -3,7 +3,8 @@ output "db_access" {
 }
 
 resource "aws_security_group" "DB_access" {
-  name = "AWS labs DB"
+  name   = "AWS labs DB"
+  vpc_id = var.vpc_id
   ingress {
     description = "DB access"
     from_port   = 5432
@@ -34,6 +35,15 @@ resource "aws_db_parameter_group" "example" {
   }
 }
 
+resource "aws_db_subnet_group" "db" {
+  name       = "db"
+  subnet_ids = var.subnet_ids
+
+  tags = {
+    Name = "My DB subnet group"
+  }
+}
+
 resource "aws_db_instance" "default" {
   allocated_storage      = 10
   db_name                = "postgres"
@@ -44,6 +54,7 @@ resource "aws_db_instance" "default" {
   parameter_group_name   = aws_db_parameter_group.example.name
   skip_final_snapshot    = true
   vpc_security_group_ids = [aws_security_group.DB_access.id]
+  db_subnet_group_name   = aws_db_subnet_group.db.name
 }
 
 

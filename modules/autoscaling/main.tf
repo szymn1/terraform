@@ -31,7 +31,7 @@ resource "aws_lb" "test" {
   name               = "test-lb"
   internal           = false
   load_balancer_type = "network"
-  subnets            = [var.subnet_id] #data.aws_subnets.example.ids
+  subnets            = [var.pub_subnet_id]
 }
 
 resource "aws_lb_listener" "test" {

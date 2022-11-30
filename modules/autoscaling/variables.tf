@@ -8,6 +8,11 @@ variable "subnet_id" {
   default = ""
 }
 
+variable "pub_subnet_id" {
+  type    = string
+  default = ""
+}
+
 variable "image_id" {
   type    = string
   default = ""
