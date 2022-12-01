@@ -3,6 +3,13 @@ variable "vpc_id" {
   default = ""
 }
 
+variable "network-cidr" {
+  type = map(string)
+  default = {
+    p0 : "172.16.0.0/16"
+  }
+}
+
 variable "image_id" {
   type    = string
   default = ""

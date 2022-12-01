@@ -9,7 +9,7 @@ resource "aws_vpc" "training" {
 
 resource "aws_subnet" "training_public" {
   vpc_id     = aws_vpc.training.id
-  cidr_block = "172.16.0.0/24"
+  cidr_block = cidrsubnet(var.network-cidr["p0"], 8, 0)
 
   tags = {
     Name = "training_nat_gw"
@@ -18,7 +18,7 @@ resource "aws_subnet" "training_public" {
 
 resource "aws_subnet" "training_autoscaling" {
   vpc_id     = aws_vpc.training.id
-  cidr_block = "172.16.1.0/24"
+  cidr_block = cidrsubnet(var.network-cidr["p0"], 8, 1)
 
   tags = {
     Name = "training_autoscaling"
@@ -27,7 +27,7 @@ resource "aws_subnet" "training_autoscaling" {
 
 resource "aws_subnet" "training_db" {
   vpc_id            = aws_vpc.training.id
-  cidr_block        = "172.16.2.0/24"
+  cidr_block        = cidrsubnet(var.network-cidr["p0"], 8, 2)
   availability_zone = "us-east-2a"
 
   tags = {
@@ -37,7 +37,7 @@ resource "aws_subnet" "training_db" {
 
 resource "aws_subnet" "training_db2" {
   vpc_id            = aws_vpc.training.id
-  cidr_block        = "172.16.4.0/24"
+  cidr_block        = cidrsubnet(var.network-cidr["p0"], 8, 4)
   availability_zone = "us-east-2b"
 
   tags = {
