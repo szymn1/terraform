@@ -70,3 +70,21 @@ resource "aws_route53_record" "db" {
   ttl     = "180"
   records = [aws_db_instance.default.address]
 }
+
+resource "aws_sns_topic" "db_alerts" {
+  name = "db-alerts-topic"
+}
+
+resource "aws_cloudwatch_metric_alarm" "db_cpu_alarm" {
+  alarm_name                = "db-cpu"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "2"
+  metric_name               = "CPUUtilization"
+  namespace                 = "AWS/RDS"
+  period                    = "300"
+  statistic                 = "Average"
+  threshold                 = "80"
+  alarm_description         = "This metric monitors db cpu utilization"
+  insufficient_data_actions = []
+  alarm_actions             = [aws_sns_topic.db_alerts.arn]
+}
