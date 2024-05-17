@@ -11,7 +11,7 @@ resource "aws_eks_cluster" "aws_k8s_cluster" {
 
 resource "aws_eks_node_group" "aws_k8s_node_group" {
   cluster_name    = aws_eks_cluster.aws_k8s_cluster.name
-  node_group_name = "aws_k8s_node_group2"
+  node_group_name = "aws_k8s_node_group"
   node_role_arn   = aws_iam_role.aws_k8s.arn
   subnet_ids      = aws_eks_cluster.aws_k8s_cluster.vpc_config[0].subnet_ids
   instance_types  = var.instance_types
