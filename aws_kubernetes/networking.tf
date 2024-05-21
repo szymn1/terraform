@@ -79,16 +79,6 @@ resource "aws_route_table" "nat" {
   }
 }
 
-# resource "aws_route_table_association" "nat1a" {
-#   subnet_id      = aws_subnet.aws_k8s_cluster_net_1a.id
-#   route_table_id = aws_route_table.nat.id
-# }
-
-# resource "aws_route_table_association" "nat1b" {
-#   subnet_id      = aws_subnet.aws_k8s_cluster_net_1b.id
-#   route_table_id = aws_route_table.nat.id
-# }
-
 resource "aws_route_table_association" "internet" {
   subnet_id      = aws_subnet.aws_k8s_public_subnet.id
   route_table_id = aws_route_table.igw.id
@@ -99,23 +89,6 @@ resource "aws_route_table_association" "cluster_nat" {
   subnet_id      = each.value.id
   route_table_id = aws_route_table.nat.id
 }
-
-# resource "aws_security_group" "aws_k8s_security_group" {
-#   name        = "aws_k8s_security_group"
-#   description = "Cluster communication with worker nodes"
-#   vpc_id      = aws_vpc.aws_k8s_vpc.id
-
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-
-#   tags = {
-#     Name = "aws_k8s"
-#   }
-# }
 
 resource "aws_security_group" "aws_k8s_external_access_security_group" {
   name        = "aws_k8s_external_access_security_group"

@@ -32,3 +32,6 @@ override.tf.json
 README.txt
 init.sh
 *.lock.*
+*/awscli*
+*/aws/*
+*/aws-auth.*
