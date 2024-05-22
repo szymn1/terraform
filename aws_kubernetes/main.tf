@@ -13,8 +13,8 @@ module "k8s" {
   source = "./modules/k8s"
 
   cluster_name             = "aws_k8s_cluster"
+  role                     = aws_iam_role.aws_k8s
   subnet_ids               = [for i in aws_subnet.cluster_net : i.id]
   ec2_ssh_key              = data.aws_key_pair.deployer.key_name
   source_security_group_id = aws_security_group.aws_k8s_external_access_security_group.id
 }
-

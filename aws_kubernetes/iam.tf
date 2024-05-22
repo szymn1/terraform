@@ -1,3 +1,4 @@
+# Create IAM role necessary for EKS
 resource "aws_iam_role" "aws_k8s" {
   name = "aws_k8s"
 
