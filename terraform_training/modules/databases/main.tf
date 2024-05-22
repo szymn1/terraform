@@ -45,12 +45,12 @@ resource "aws_db_subnet_group" "db" {
 }
 
 resource "aws_db_instance" "default" {
-  allocated_storage      = 10
-  db_name                = "postgres"
+  allocated_storage      = var.db_storage
+  db_name                = var.db_name
   engine                 = "postgres"
-  instance_class         = "db.t4g.micro"
+  instance_class         = var.db_type
   username               = var.db_user
-  password               = var.db_user
+  password               = var.db_pass
   parameter_group_name   = aws_db_parameter_group.example.name
   skip_final_snapshot    = true
   vpc_security_group_ids = [aws_security_group.DB_access.id]
@@ -60,12 +60,12 @@ resource "aws_db_instance" "default" {
 
 
 resource "aws_route53_zone" "db" {
-  name = "my.test"
+  name = var.dns_zone
 }
 
 resource "aws_route53_record" "db" {
   zone_id = aws_route53_zone.db.zone_id
-  name    = "database.my.test"
+  name    = "database.${var.dns_zone}"
   type    = "CNAME"
   ttl     = "180"
   records = [aws_db_instance.default.address]

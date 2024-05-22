@@ -114,7 +114,10 @@ module "autoscaling" {
   vm_type         = var.vm_type
   autoscaling_azs = var.autoscaling_azs
   user_ip         = var.user_ip
-  public_key      = var.public_key
+  public_key = {
+    name    = "AWS labs TEST key"
+    content = var.public_key
+  }
 }
 
 module "databases" {

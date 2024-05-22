@@ -6,8 +6,8 @@ resource "aws_launch_template" "test_launch_template" {
     device_name = "/dev/sda1"
     ebs {
       delete_on_termination = true
-      volume_size           = 8
-      volume_type           = "gp3"
+      volume_size           = var.ebs_vol_size
+      volume_type           = var.ebs_vol_type
     }
   }
   key_name               = aws_key_pair.deployer.key_name
@@ -16,9 +16,9 @@ resource "aws_launch_template" "test_launch_template" {
 
 resource "aws_autoscaling_group" "test_autoscaling_group" {
   vpc_zone_identifier = [var.subnet_id]
-  desired_capacity    = 2
-  max_size            = 3
-  min_size            = 2
+  desired_capacity    = var.autoscaling_params.desired_capacity
+  max_size            = var.autoscaling_params.max_size
+  min_size            = var.autoscaling_params.min_size
   target_group_arns   = [aws_lb_target_group.test.arn]
 
   launch_template {
@@ -83,6 +83,6 @@ resource "aws_security_group" "http_and_this_pc_ssh" {
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name   = "AWS labs TEST key"
-  public_key = var.public_key
+  key_name   = var.public_key.name
+  public_key = var.public_key.content
 }
